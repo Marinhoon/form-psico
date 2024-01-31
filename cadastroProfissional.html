@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/public/logobv.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2a6d3b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: center;
+            _overflow: hidden;
+        }
+
+        .card {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(3, 136, 81, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 300px;
+            width: 100vw;
+            height: auto;
+        }
+
+        .titulo {
+            text-align: center;
+        }
+
+        .cardlogo {
+            max-width: 300px;
+            width: 100px;
+        }
+
+        .container-logo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .btn-enviar {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            padding: 20px;
+            border-radius: 48px;
+            border: none;
+        }
+
+        strong {
+            font-family: Arial, sans-serif;
+            margin: center;
+            text-align: center;
+
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        select {
+            margin-bottom: 5px;
+            padding: 8px;
+            border: 1px solid #575050;
+            border-radius: 4px;
+        }
+
+        input {
+            margin-bottom: 5px;
+            padding: 8px;
+            border: 1px solid #575050;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+
+        function enviar() {
+
+            event.preventDefault();
+
+            var unidade = document.getElementById("unidade").value;
+            var nomecompleto = document.getElementById("nomecompleto").value;
+            var nascimento = document.getElementById("nascimento").value;
+            var endereco = document.getElementById("endereco").value;
+            var bairro = document.getElementById("bairro").value;
+            var cpf = document.getElementById("cpf").value;
+            var numeroConselho = document.getElementById("numeroConselho").value;
+            var telefone = document.getElementById("telefone").value;
+            var funcaoProfissional = document.getElementById("funcaoProfissional").value
+            var tipoConselho = document.getElementById("tipoConselho").value
+            var especialidade = document.getElementById("especialidade").value
+
+            if (
+                unidade == '' ||
+                nomecompleto == '' ||
+                nascimento == '' ||
+                cpf == '' ||
+                bairro == '' ||
+                telefone == '' ||
+                numeroConselho == ''
+
+            ) {
+                alert("Preencha todos os campos!");
+
+            }
+            else if (tipoConselho == 'CRM' && funcaoProfissional == "" && especialidade == "") {
+                alert("Preencha os dados do Médico!");
+            }
+            else {
+                document.getElementById("formpsicologo").submit();
+
+            }
+        }
+
+        function exibeFuncaoMedico(tipoConselho) {
+            var funcaoProfissional = document.getElementById("funcaoProfissional")
+            var especialidade = document.getElementById("especialidade")
+
+            if (tipoConselho.target.value === "CRM") {
+                
+                funcaoProfissional.style.display = "block"
+                especialidade.style.display = "block"
+
+            } else {
+                funcaoProfissional.style.display = "none"
+                especialidade.style.display = "none"
+                
+            }
+        }
+
+
+        // começo telefone
+        function mask(o, f) {
+            setTimeout(function () {
+                var v = mphone(o.value);
+                if (v != o.value) {
+                    o.value = v;
+                }
+            }, 1);
+        }
+
+        function mphone(v) {
+            var r = v.replace(/\D/g, "");
+            r = r.replace(/^0/, "");
+            if (r.length > 10) {
+                r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+            } else if (r.length > 5) {
+                r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+            } else if (r.length > 2) {
+                r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+            } else {
+                r = r.replace(/^(\d*)/, "($1");
+            }
+            return r;
+        }
+        // final telefone
+
+
+        //inicio Cep
+        function mascara(i, t) {
+
+            var v = i.value;
+
+            if (isNaN(v[v.length - 1])) {
+                i.value = v.substring(0, v.length - 1);
+                return;
+            }
+
+            if (t == "data") {
+                i.setAttribute("maxlength", "10");
+                if (v.length == 2 || v.length == 5) i.value += "/";
+            }
+
+            if (t == "cpf") {
+                i.setAttribute("maxlength", "14");
+                if (v.length == 3 || v.length == 7) i.value += ".";
+                if (v.length == 11) i.value += "-";
+            }
+
+            if (t == "cnpj") {
+                i.setAttribute("maxlength", "18");
+                if (v.length == 2 || v.length == 6) i.value += ".";
+                if (v.length == 10) i.value += "/";
+                if (v.length == 15) i.value += "-";
+            }
+
+            if (t == "cep") {
+                i.setAttribute("maxlength", "9");
+                if (v.length == 5) i.value += "-";
+            }
+
+            if (t == "tel") {
+                if (v[0] == 9) {
+                    i.setAttribute("maxlength", "10");
+                    if (v.length == 5) i.value += "-";
+                } else {
+                    i.setAttribute("maxlength", "9");
+                    if (v.length == 4) i.value += "-";
+                }
+            }
+        }
+
+        //final cep
+
+    </script>
+    <title>Cadastro - Bom Viver</title>
+</head>
+
+<body>
+
+
+    <div class="card">
+        <div class="container-logo">
+            <img src="https://bomviverssa.com.br/wp-content/themes/tema-bem-viver/assets/imagens/marca_bom_viver_tagline.png" alt="logo" class="cardlogo">
+        </div>
+
+        <h2 class="titulo">Cadastro de Profissional</h2>
+
+        <form action="https://formsubmit.co/suporte.ti@bomviverssa.com.br" method="POST" id="formpsicologo"
+            onsubmit="enviar()">
+
+            <input type="hidden" name="_captcha" value="false">
+
+            <input type="hidden" nome="e-mail" placeholder="e-mail" hidden>
+
+            <input type="hidden" name="_next" value="http://www.bomviverssa.com.br/enviado.html">
+
+
+            <select name="Unidade" id="unidade">
+                <option disabled value="" selected>Selecione a Unidade</option>
+                <option value="Consultas">BV - Consultas</option>
+                <option value="Hospital">BV - Hospital</option>
+            </select>
+
+            <br>
+
+            <input type="text" name="Nome" id="nomecompleto" placeholder="Nome Completo">
+            <br>
+
+            <input oninput="mascara(this, 'data')" id="nascimento" name="Nascimento" type="text" class="form-control"
+                placeholder="Nascimento">
+            <br>
+
+            <input oninput="mascara(this, 'cpf')" id="cpf" type="text" placeholder="CPF" name="CPF">
+
+            <br>
+
+            <input type="text" id="telefone" name="Telefone" onkeypress="mask(this, mphone);"
+                onblur="mask(this, mphone);" required="" placeholder="(99) 9999-9999">
+            <br>
+
+            <strong for="endereco">Dados do Conselho</strong>
+            <hr>
+
+            <select name="Tipo Conselho" id="tipoConselho" onchange="exibeFuncaoMedico(event)">
+                <option disabled value="" selected>Selecione o Conselho</option>
+                <option value="CRM">CRM</option>
+                <option value="CRP">CRP</option>
+                <option value="CRN">CRN</option>
+                <option value="CRF">CRF</option>
+                <option value="COREN">COREN</option>
+                <option value="CRAS">CRAS</option>
+                <option value="CREFITO">CREFITO</option>
+                <option value="OUT">OUT</option>
+            </select>
+
+            <br>
+
+            <input type="numero" name="Numero Conselho" id="numeroConselho" placeholder="Nº Conselho">
+            <br>
+
+            <select name="Função do Profissional" id="funcaoProfissional" style="display: none;">
+                <option disabled value="" selected>Selecione sua Função</option>
+                <option value="Plantonista">Plantonista</option>
+                <option value="Assistente">Assistente</option>
+            </select>
+
+            <br>
+
+            <select name="Especialidade" id="especialidade" style="display: none;">
+                <option disabled value="" selected>Selecione sua Especialidade</option>
+                <option value="Clinico">Clínico</option>
+                <option value="Psiquiatra">Psiquiatra</option>
+            </select>
+
+            <strong for="endereco">Dados de Endereço</strong>
+            <br>
+
+            <input type="text" name="Endereço" id="endereco" placeholder="Endereço">
+            <br>
+
+            <input type="text" name="Bairro" id="bairro" placeholder="Bairro">
+            <br>
+
+            <input oninput="mascara(this, 'cep')" id="cep" type="text" placeholder="Cep" name="Cep">
+
+            <br>
+
+            <br>
+            <Button class="btn-enviar">
+                <strong>Enviar</strong>
+            </Button>
+        </form>
+    </div>
+</body>
+
+</html>
